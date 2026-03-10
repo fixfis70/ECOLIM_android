@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ECOLIM" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dark_primary</item>
+        <item name="colorPrimaryVariant">@color/dark_primary</item>
+        <item name="colorOnPrimary">@color/dark_onPrimary</item>
+
+        <item name="backgroundColor">@color/dark_background</item>
+        <item name="colorSurface">@color/dark_surface</item>
+        <item name="colorOnBackground">@color/dark_onBackground</item>
+
+        <item name="android:fontFamily">@font/font_family_modern</item>
+        <item name="fontFamily">@font/font_family_modern</item>
+
+        <item name="textInputStyle">@style/Widget.App.TextInputLayout.Dark</item>
+        <item name="materialButtonStyle">@style/Widget.App.Button.Dark</item>
+    </style>
+</resources>

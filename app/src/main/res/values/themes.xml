@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ECOLIM" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Colors -->
+        <!-- Colors -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primaryVariant</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="backgroundColor">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnBackground">@color/onBackground</item>
+
+        <!-- Tipografía global: usa la font family creada -->
+        <item name="android:fontFamily">@font/font_family_modern</item>
+        <item name="fontFamily">@font/font_family_modern</item>
+
+        <!-- Texto principal -->
+        <item name="android:textColor">@color/onBackground</item>
+
+        <!-- Text appearances -->
+        <item name="textAppearanceHeadline6">@style/TextAppearance.App.Headline6</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.App.Body1</item>
+
+        <!-- TextInputLayout default style -->
+        <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
+
+        <!-- Button style -->
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+    </style>
+
+    <style name="Theme.ECOLIM" parent="Base.Theme.ECOLIM" />
+</resources>
