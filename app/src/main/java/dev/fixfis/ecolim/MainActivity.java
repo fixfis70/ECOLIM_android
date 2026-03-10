@@ -19,13 +19,13 @@ import dev.fixfis.ecolim.server.Metrics;
 import dev.fixfis.ecolim.server.Result;
 
 public class MainActivity extends AppCompatActivity {
-    Button presentacion, crearTanda, verTandas, Cambiarpass;
+    Button presentacion, crearTanda, verTandas,cambiarpass;
 
     private void loadButtons() {
         presentacion = findViewById(R.id.main_aboutme);
         crearTanda = findViewById(R.id.main_creartandas);
         verTandas = findViewById(R.id.main_vertandas);
-        Cambiarpass = findViewById(R.id.main_cambiarpass);
+        cambiarpass = findViewById(R.id.main_cambiarpass);
     }
 
     @Override
@@ -42,14 +42,18 @@ public class MainActivity extends AppCompatActivity {
         loadButtons();
 
         crearTanda.setOnClickListener(v->{irATandas();});
+        cambiarpass.setOnClickListener(v->cambiarpass());
 
+    }
+
+    private void cambiarpass() {
+        btntoact(ForgotPassActivity.class);
     }
 
     private void irATandas() {
         new Thread(()->{
             JsonElement jsonElement = ApiClient.create("/tandas/getTanda", UUID.class).postter(Metrics.getUserUUID()).devResult();
             long l = Long.parseLong(jsonElement.toString());
-            Metrics.setIdTandaActiva(l);
 
             Class<?> clzz;
             if (l<0) {
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             runOnUiThread(()->{
+                Metrics.setIdTandaActiva(l);
                 btntoact(clzz);
             });
         }).start();

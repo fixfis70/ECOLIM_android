@@ -24,6 +24,7 @@ public class Metrics {
     }
 
     public static void setIdTandaActiva(Long idTandaActiva) {
+        System.out.println("Se guardo con el id "+idTandaActiva);
         Metrics.idTandaActiva = idTandaActiva;
     }
 

@@ -2,10 +2,12 @@ package dev.fixfis.ecolim.server.request;
 
 import java.util.UUID;
 
+import dev.fixfis.ecolim.server.Metrics;
+
 public class CambiarPassRequest {
     String newPassword;
     String oldPassword;
-    UUID uuid;
+    UUID uuid = Metrics.getUserUUID();
 
     public String getNewPassword() {
         return newPassword;

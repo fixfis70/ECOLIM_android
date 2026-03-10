@@ -62,6 +62,8 @@ public class AddResiduos extends AppCompatActivity {
         loadUI();
 
         cargarLista();
+        cargarTabla();
+
 
         enviar.setOnClickListener(v->{
             enviarTanda();
@@ -92,7 +94,6 @@ public class AddResiduos extends AppCompatActivity {
         new Thread(()->{
             Result result = ApiClient.create("/tandas/addDesperdicio", AddDesperdicioTandaRequest.class)
                     .postter(addDesperdicioTandaRequest).result();
-
             runOnUiThread(()->{
                 Toast.makeText(this,result.getMessage(),Toast.LENGTH_SHORT).show();
             });
@@ -108,14 +109,10 @@ public class AddResiduos extends AppCompatActivity {
             });
         }).start();
     }
-
-    private void cargarLista() {
-
-
-
-        new Thread(() -> {
+    private void cargarTabla(){
+        new Thread(()->{
             Object array = ApiClient.create("/tandas/getTableTanda",Long.class)
-                    .postter(5L).result().getData();
+                    .postter(Metrics.getIdTandaActiva()).result().getData();
 
             Type type = TypeToken
                     .getParameterized(List.class, DesperdicioDto.class)
@@ -124,14 +121,22 @@ public class AddResiduos extends AppCompatActivity {
             List<DesperdicioDto> desperdicioDtoList = new Gson().fromJson(
                     array.toString(),type
             );
+            runOnUiThread(()->{
+                DesperdicoAdapter desperdicoAdapter = new DesperdicoAdapter(desperdicioDtoList,this);
+                ryc.setLayoutManager(new LinearLayoutManager(this));
+                ryc.setAdapter(desperdicoAdapter);
+            });
+        }).start();
+
+    }
+    private void cargarLista() {
+        new Thread(() -> {
 
             List<TipoResiduoDto> tipoResiduoDtoList = ApiClient.create("/residuos/residuos").toList(TipoResiduoDto.class);
             // TODO agregar una forma para poder crear lugares desde este mismo panel
 
             runOnUiThread(() -> {
-                DesperdicoAdapter desperdicoAdapter = new DesperdicoAdapter(desperdicioDtoList,this);
-                ryc.setLayoutManager(new LinearLayoutManager(this));
-                ryc.setAdapter(desperdicoAdapter);
+
                 ArrayAdapter<TipoResiduoDto> adapter = new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_item,
