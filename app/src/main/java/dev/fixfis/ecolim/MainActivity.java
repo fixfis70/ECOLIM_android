@@ -49,13 +49,17 @@ public class MainActivity extends AppCompatActivity {
         new Thread(()->{
             JsonElement jsonElement = ApiClient.create("/tandas/getTanda", UUID.class).postter(Metrics.getUserUUID()).devResult();
             long l = Long.parseLong(jsonElement.toString());
-            Class<?> clzz= AddResiduos.class;
+            Metrics.setIdTandaActiva(l);
+
+            Class<?> clzz;
             if (l<0) {
                 clzz = CrearTandaActivity.class;
+            } else {
+                clzz = AddResiduos.class;
             }
-            Metrics.setIdTandaActiva(l);
+
             runOnUiThread(()->{
-                btntoact(CrearTandaActivity.class);
+                btntoact(clzz);
             });
         }).start();
     }

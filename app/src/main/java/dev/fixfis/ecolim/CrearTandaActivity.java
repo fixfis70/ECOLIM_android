@@ -1,7 +1,9 @@
 package dev.fixfis.ecolim;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
@@ -18,13 +20,17 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import dev.fixfis.ecolim.server.ApiClient;
+import dev.fixfis.ecolim.server.Metrics;
+import dev.fixfis.ecolim.server.Result;
 import dev.fixfis.ecolim.server.entities.LugarDto;
+import dev.fixfis.ecolim.server.request.AdminRequierd;
 
 public class CrearTandaActivity extends AppCompatActivity {
     Spinner spin;
-
+    Button crear;
     private void loadUi() {
         spin = findViewById(R.id.crear_tanda_spiner);
+        crear = findViewById(R.id.crear_tanda_crear);
     }
 
     @Override
@@ -41,17 +47,35 @@ public class CrearTandaActivity extends AppCompatActivity {
         loadUi();
 
         cargarLista();
+
+        crear.setOnClickListener(v->{
+            crea();
+        });
+    }
+
+    private void crea() {
+        LugarDto selectedItem = (LugarDto) spin.getSelectedItem();
+        new Thread(()->{
+            AdminRequierd<LugarDto> rqs = new AdminRequierd<>();
+            rqs.setData(selectedItem);
+
+            Result result = ApiClient.create("/tandas/crearTanda",AdminRequierd.class)
+                    .postter(rqs).result();
+            if (result.getError()==0){
+                runOnUiThread(()->{
+                    //TODO arreglar el problema, supuestamente .getData da un double
+
+                    Metrics.setIdTandaActiva(((Number) result.getData()).longValue());
+                    startActivity(new Intent(this,AddResiduos.class));
+                });
+            }
+        }).start();
     }
 
     private void cargarLista() {
         new Thread(() -> {
-            Type t = new TypeToken<List<LugarDto>>() {
-            }.getType();
+            List<LugarDto> l = ApiClient.create("/lugares/").toList(LugarDto.class);
 
-            List<LugarDto> l = new Gson().fromJson(
-                    ApiClient.create("/lugares/").getter(JsonArray.class),
-                    t
-            );
             // TODO agregar una forma para poder crear lugares desde este mismo panel
 
             runOnUiThread(() -> {

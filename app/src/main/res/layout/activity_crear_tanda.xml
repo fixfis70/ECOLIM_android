@@ -8,12 +8,18 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".CrearTandaActivity">
-
+    <TextView
+        android:text="Crea una\n Tanda"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="50dp">
+
         <TextView
             android:text="Lugar"
             android:layout_width="match_parent"

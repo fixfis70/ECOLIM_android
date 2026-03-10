@@ -60,11 +60,6 @@ public class TipoResiduoDto implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "nombre = " + nombre + ", " +
-                "categoria = " + categoria + ", " +
-                "descripcion = " + descripcion + ", " +
-                "imagen = " + imagen +")";
+        return categoria+" "+nombre;
     }
 }

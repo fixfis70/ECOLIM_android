@@ -1,14 +1,18 @@
 package dev.fixfis.ecolim.server;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.*;
+import java.util.List;
 
 public class ApiClient {
 
@@ -57,7 +61,17 @@ public class ApiClient {
             return getter(Result.class);
 
         }
+        public <S> List<S> toList(Class<S> sClass)  {
+            JsonArray array = ApiClient
+                    .createFromScratch(endpoint)
+                    .getter(JsonArray.class);
 
+            Type type = TypeToken
+                    .getParameterized(List.class, sClass)
+                    .getType();
+
+            return new Gson().fromJson(array, type);
+        }
         private ApiCalls<T> request(T body, String method) {
             try {
                 String o = new Gson().toJson(body);
